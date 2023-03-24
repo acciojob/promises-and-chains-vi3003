@@ -1,31 +1,37 @@
 //your JS code here. If required.
-//your JS code here. If required.
-let Name = document.getElementById("name").value;
-let age = document.getElementById("age").value;
-let btn = document.getElementById("btn");
+const form = document.querySelector('#myForm');
+  const nameInput = document.querySelector('#name');
+  const ageInput = document.querySelector('#age');
+  const btn = document.querySelector('#btn');
 
-btn.addEventListener("click", (e) => {
-  e.preventDefault();
-  //   if (Name === "" || isNaN(age)) {
-  //     alert("inputs cannot be empty");
-  //     return;
-  //   }
+  form.addEventListener('submit', (event) => {
+    event.preventDefault(); // Prevent form from submitting normally
 
-  let promise = new Promise((resolve, reject) => {
-    setTimeout(() => {
-      if (age > 18) {
-        resolve(`Welcome, ${Name}.You can vote. `);
-      } else {
-        reject(`ohh sorry ${Name}.You aren't old enough`);
-      }
-    }, 4000);
-  });
+    if (nameInput.value === '' || ageInput.value === '') {
+      alert('Please fill out all fields.'); // Show validation error
+      return;
+    }
 
-  promise
-    .then((message) => {
-      alert(message);
-    })
-    .catch((message) => {
-      alert(message);
+    const age = parseInt(ageInput.value);
+
+    // Check if age is above 18 after 4 seconds
+    const promise = new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (age >= 18) {
+          resolve();
+        } else {
+          reject();
+        }
+      }, 4000);
     });
-});
+
+    promise
+      .then(() => {
+        // Show welcome message if age is above 18
+        alert(`Welcome, ${nameInput.value}. You can vote.`);
+      })
+      .catch(() => {
+        // Show rejection message if age is below 18
+        alert(`Oh sorry ${nameInput.value}. You aren't old enough.`);
+      });
+  });
